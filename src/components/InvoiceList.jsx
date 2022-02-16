@@ -2,13 +2,21 @@ import { Link } from "react-router-dom";
 
 import Article from "../elements/Article";
 
+import { useState } from "react";
+
 function InvoiceList({ invoices, clients }) {
+
+    const [filter, setFilter] = useState('');
+
+    const handleFilter = (event) => {
+        setFilter(event.target.value);
+    }
 
     return (
         <section>
             <header>
                 <h2>Invoices</h2>
-                <select name="Filter by status" id="">
+                <select onChange={handleFilter} name="Filter by status" value={filter}>
                     <option value="">Filter by status</option>
                     <option value="Draft">Draft</option>
                     <option value="Paid">Paid</option>
@@ -20,7 +28,7 @@ function InvoiceList({ invoices, clients }) {
 
             <Article props={['Number', 'Due date', 'Client', 'Amount', 'Status', '']} />
 
-            {invoices.map(invoice => {
+            {invoices.filter(invoice => filter === "" || filter === invoice.status).map(invoice => {
                 let person = clients.find(client => client.number === +invoice.client);
                 return (
                     <Article key={invoice.number}
