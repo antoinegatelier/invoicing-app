@@ -4,9 +4,11 @@ import Article from "../elements/Article";
 
 import { useState } from "react";
 
-function InvoiceList({ invoices, clients }) {
+function InvoiceList({ state }) {
 
     const [filter, setFilter] = useState('');
+
+    const [clients, invoices] = state;
 
     const handleFilter = (event) => {
         setFilter(event.target.value);

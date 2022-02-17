@@ -1,60 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import ItemList from '../elements/ItemList';
 import Article from '../elements/Article';
 import { createInvoice, createItem } from '../dataModels.js';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-function InvoiceForm({invoices, clients, setInvoices}) {
+import useLocalStorage from '../useLocalStorage';
+import { newInvoiceReducer } from '../reducers';
 
-    const inititalState = createInvoice(invoices.length + 1);
+import { ACTIONS, KEYS, STATUS } from '../CONSTANTS';
+
+function InvoiceForm({state, dispatch}) {
+
+    const [clients, invoices] = state;
+
+    const [invoice, dispatchInvoice] = useLocalStorage(newInvoiceReducer, KEYS.NEW_INVOICE, createInvoice(invoices.length))
+
     const initiateClientState = () => {
-        let data = clients.filter(entry => +(entry.number) === +(invoice.client))[0];
+        let data = clients.find(entry => parseInt(entry.number) === parseInt(invoice.client));
         if(data) {return data} else {return []}
     };
 
-    const [invoice, setInvoice] = useState(inititalState);
-    const [client, setClient] = useState(initiateClientState());
-
-    const removeItem = (id) => {
-        setInvoice({...invoice, items: invoice.items.filter(item => item.id !== id)})
-    }
+    let client = initiateClientState();
 
     const addItem = (event) => {
         event.preventDefault();
-        setInvoice({ ...invoice, items: [...invoice.items, createItem(Date.now())] })
+        dispatchInvoice({type: ACTIONS.NEW_INVOICE.ADD_ITEM, payload: createItem(Date.now())});
     };
 
-    const handleChange = event => setInvoice( { ...invoice, [event.target.id]: event.target.value } );
-
-    const handleItemChange = (event) => {
-        const [id, tag] = event.target.id.split('_');
-        setInvoice({
-            ...invoice,
-            items: invoice.items.map(item => item.id !== +id ? item : { ...item, [tag]: event.target.value })
-        });
-    }
+    const handleChange = event => {
+        const payload = { key: event.target.id, value: event.target.value }
+        dispatchInvoice({type: ACTIONS.NEW_INVOICE.UPDATE, payload: payload});
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setInvoice({
-            ...invoice,
-            client: Number(invoice.client),
-            amount: invoice.items.map(item => +(item.quantity) * +(item.pricePerUnit)).reduce((a, b) => a + b)
-        });
-        const checkExistingInvoice = invoices.filter(entry => entry.number !== invoice.number);
-        setInvoices(checkExistingInvoice.concat([invoice]));
-    }
-
-    const sendInvoice = (event) => {
-        event.preventDefault();
-        setInvoice({...invoice, status: 'Pending'})
-        handleSubmit(event);
-        setInvoice(inititalState);
-    }
-
-    const enableEdit = (event) => {
-        event.preventDefault();
-        setInvoice({...invoice, status: 'Draft'})
+        event.target.name === STATUS.DRAFT ? dispatch({type: ACTIONS.INVOICES.ADD, payload: invoice}) : dispatch({type: ACTIONS.INVOICES.ADD, payload: {...invoice, 'status': STATUS.PENDING}});
+        dispatchInvoice({type: ACTIONS.NEW_INVOICE.RESET, payload: createInvoice(invoices.length)})
     }
 
     const getClientOptions = () => {
@@ -65,12 +47,16 @@ function InvoiceForm({invoices, clients, setInvoices}) {
         return clientList;
     }
 
-    const clientOptions = getClientOptions();
+    let clientOptions = getClientOptions();
 
     useEffect(() => {
-        setClient(initiateClientState())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [invoice]);
+        client = initiateClientState();
+    }, [invoice.client]);
+
+    useEffect(() => {
+        let sum = invoice.items.length > 0 ? invoice.items.map(item => parseFloat(item.pricePerUnit) * parseInt(item.quantity)).reduce((a, b) => a + b) : 0;
+        dispatchInvoice({type: ACTIONS.NEW_INVOICE.UPDATE, payload: {key: 'amount', value: sum }})
+    }, [invoice.items])
 
     return ( 
         <section className='invoice_form' >
@@ -113,14 +99,14 @@ function InvoiceForm({invoices, clients, setInvoices}) {
                         <p>Total</p>
                         <p></p>
                     </article>
-                        {invoice.items.map(item => <ItemList id={item.id} key={item.id} removeItem={removeItem} handleItemChange={handleItemChange} state={item} status={invoice.status} />)}
+                        {invoice.items.map(item => <ItemList id={item.id} key={item.id} dispatch={dispatchInvoice} state={[item, invoice.status]} />)}
                     <button onClick={addItem}>+ Add New Item</button>
                 </fieldset>
             </form>
             <div className='button_group'>
-                <button onClick={enableEdit}>Edit invoice</button>
-                <button onClick={handleSubmit} disabled={invoice.status === 'Draft' ? false : true} >Save Changes</button>
-                <button onClick={sendInvoice}>Send invoice</button>
+                {/* <button onClick={enableEdit}>Edit invoice</button> */}
+                <button onClick={handleSubmit} name={STATUS.DRAFT} disabled={invoice.status === STATUS.DRAFT ? false : true} >Save as draft</button>
+                <button onClick={handleSubmit} name={STATUS.PENDING}>Send as Pending</button>
             </div>
             
         </section>

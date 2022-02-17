@@ -1,4 +1,6 @@
-export function createClient(number) {
+import { STATUS } from './CONSTANTS';
+
+export function createClient(number = undefined) {
     return ({
         title: "",
         firstName: "",
@@ -28,15 +30,14 @@ export function createItem(id) {
 export function createInvoice(number) {
     return (
         {
-            id: Date.now(),
-            number: number,
+            number: number + 1,
             created: null,
             due: null,
             description: '',
             client: 0,
             amount: 0,
             currency: '€',
-            status: 'Draft',
+            status: STATUS.DRAFT,
             items: []
         }
     )

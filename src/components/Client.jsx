@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Article from "../elements/Article";
 
-function Client({clients, invoices}) {
+function Client({ state }) {
 
+    const [clients, invoices] = state;
     let params = useParams();
     const [client, setClient] = useState(clients.filter(client => +client.number === +params.clientId)[0]);
 

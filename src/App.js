@@ -8,32 +8,33 @@ import ClientList from "./components/ClientList";
 import Settings from "./components/Settings";
 import Home from "./components/Home";
 import ClientForm from "./components/ClientForm";
-import data from "./data.json";
 
+import useLocalStorage from './useLocalStorage';
+import { invoicesReducer, clientsReducer } from './reducers';
 
 import { Routes, Route } from "react-router-dom";
+import { KEYS } from "./CONSTANTS";
 
 import './App.css'
-import { useState } from "react";
 
 function App() {
 
-  const [clients, setClients] = useState(data.clients);
-  const [invoices, setInvoices] = useState(data.invoices);
+  const [invoices, dispatchInvoices] = useLocalStorage(invoicesReducer, KEYS.INVOICES , []);
+  const [clients, dispatchClients] = useLocalStorage(clientsReducer, KEYS.CLIENTS, [])
 
   return (
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path='/' element={<Home clients={clients} invoices={invoices} />} />
-        <Route path='invoices' element={<InvoiceList invoices={invoices} clients={clients} />} />
-        <Route path='/invoices/:invoiceId' element={<Invoice clients={clients} invoices={invoices} />} />
-        <Route path="clients" element={<ClientList invoices={invoices} clients={clients} />} />
-        <Route path="/clients/:clientId" element={<Client clients={clients} invoices={invoices} />} />  
+        <Route path='/' element={<Home state={[clients, invoices]} actions={{dispatchClients: dispatchClients, dispatchInvoices: dispatchInvoices}} />} />
+        <Route path='invoices' element={<InvoiceList state={[clients, invoices]} />} />
+        <Route path='/invoices/:invoiceId' element={<Invoice state={[clients, invoices]} />} />
+        <Route path="clients" element={<ClientList state={[clients, invoices]} />} />
+        <Route path="/clients/:clientId" element={<Client state={[clients, invoices]} />} />  
         <Route path="settings" element={<Settings />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="new_invoice" element={<InvoiceForm invoices={invoices} clients={clients} setInvoices={setInvoices} />} />
-        <Route path="new_client" element={<ClientForm clients={clients} setClients={setClients} />} />
+        <Route path="new_invoice" element={<InvoiceForm state={[clients, invoices]} dispatch={dispatchInvoices}/>} />
+        <Route path="new_client" element={<ClientForm state={[clients, invoices]} dispatch={dispatchClients} />} />
         <Route path="*" element={<section><article><p>Error 404 - Page not found</p></article></section>} />
       </Routes>
     </div>

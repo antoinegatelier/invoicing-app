@@ -1,19 +1,26 @@
-import { useState } from "react";
 import { createClient } from "../dataModels"
+import { newClientReducer } from "../reducers";
 
-function ClientForm({clients, setClients}) {
+import useLocalStorage from "../useLocalStorage";
 
-    const [client, setClient] = useState(createClient(clients.length + 1))
+import { ACTIONS, KEYS } from '../CONSTANTS';
+
+function ClientForm({ state, dispatch }) {
+
+    const [clients, invoices] = state;
+
+    const [client, dispatchClient] = useLocalStorage(newClientReducer, KEYS.NEW_CLIENT, createClient(clients.length + 1))
 
     const handleChange = (event) => {
-        setClient({...client, [event.target.id]: event.target.value});
+        const payload = { key: event.target.id, value: event.target.value };
+        dispatchClient({ type: ACTIONS.NEW_CLIENT.UPDATE, payload: payload })
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setClients([...clients, client]);
+        dispatch({ type: ACTIONS.CLIENTS.ADD, payload: client })
         alert('Client successfully created');
-        setClient(createClient(clients.length + 1));
+        dispatchClient({ type: ACTIONS.NEW_CLIENT.RESET, payload: createClient(clients.length + 1) });
     }
 
     return (
@@ -27,12 +34,12 @@ function ClientForm({clients, setClients}) {
                     <article>
                         <label htmlFor="title" ><p>Title</p></label>
                         <label htmlFor="firstName" ><p>First name</p></label>
-                        <label htmlFor="lastName" ><p>Last name</p></label>                        
+                        <label htmlFor="lastName" ><p>Last name</p></label>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="title" type="text" id="title" value={client.title ? client.title : ''} /></p>
-                        <p><input onChange={handleChange} name="firstName" type="text" id="firstName" value={client.firstName ? client.firstName : ''} required /></p>
-                        <p><input onChange={handleChange} name="lastName" type="text" id="lastName" value={client.lastName ? client.lastName : ''} required /></p>
+                        <p><input onChange={handleChange} name="title" type="text" id="title" value={client.title} /></p>
+                        <p><input onChange={handleChange} name="firstName" type="text" id="firstName" value={client.firstName} required /></p>
+                        <p><input onChange={handleChange} name="lastName" type="text" id="lastName" value={client.lastName} required /></p>
                     </article>
                 </fieldset>
                 <fieldset>
@@ -41,13 +48,13 @@ function ClientForm({clients, setClients}) {
                         <p><label htmlFor="street">Street</label></p>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="street" type="text" id="street" value={client.street ? client.street : ''} required /></p>
+                        <p><input onChange={handleChange} name="street" type="text" id="street" value={client.street} required /></p>
                     </article>
                     <article>
                         <p><label htmlFor="additionalInfo">Additional information</label></p>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="additionalInfo" type="text" id="additionalInfo" value={client.additionalInfo ? client.additionalInfo : ''} /></p>
+                        <p><input onChange={handleChange} name="additionalInfo" type="text" id="additionalInfo" value={client.additionalInfo} /></p>
                     </article>
                     <article>
                         <p><label htmlFor="city" >City</label></p>
@@ -55,9 +62,9 @@ function ClientForm({clients, setClients}) {
                         <p><label htmlFor="country" >Country</label></p>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="city" type="text" id="city" value={client.city ? client.city : ''} required /></p>
-                        <p><input onChange={handleChange} name="postcode" type="text" id="postcode" value={client.postcode ? client.postcode : ''} required /></p>
-                        <p><input onChange={handleChange} name="country" type="text" id="country" value={client.country ? client.country : ''} required /></p>
+                        <p><input onChange={handleChange} name="city" type="text" id="city" value={client.city} required /></p>
+                        <p><input onChange={handleChange} name="postcode" type="text" id="postcode" value={client.postcode} required /></p>
+                        <p><input onChange={handleChange} name="country" type="text" id="country" value={client.country} required /></p>
                     </article>
                 </fieldset>
                 <fieldset>
@@ -67,8 +74,8 @@ function ClientForm({clients, setClients}) {
                         <p><label htmlFor="tel">Phone</label></p>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="email" type="email" id="email" value={client.email ? client.email : ''} /></p>
-                        <p><input onChange={handleChange} name="tel" type="tel" id="tel" value={client.tel ? client.tel : ''} /></p>
+                        <p><input onChange={handleChange} name="email" type="email" id="email" value={client.email} /></p>
+                        <p><input onChange={handleChange} name="tel" type="tel" id="tel" value={client.tel} /></p>
                     </article>
                 </fieldset>
                 <button onClick={handleSubmit}>Save new client</button>

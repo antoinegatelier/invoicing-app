@@ -1,25 +1,29 @@
 import bin from '../img/bin.png'
 
-function ItemList(props) {
+import { ACTIONS, STATUS } from '../CONSTANTS';
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        if (props.status !== 'Draft') return;
-        props.removeItem(props.id);
-    }
+function ItemList(props) {
+    const { id, dispatch } = props;
+    const [item, status] = props.state;
 
     const handleChange = (event) => {
-        if (props.status !== 'Draft') return;
-        props.handleItemChange(event)
+        if (status !== STATUS.DRAFT ) return;
+        dispatch({type: ACTIONS.NEW_INVOICE.UPDATE_ITEM, payload: {id: id, key: event.target.name, value: event.target.value }});
     }
+
+    const removeItem = (event) => {
+        event.preventDefault();
+        if (status !== STATUS.DRAFT) return;
+        dispatch({type: ACTIONS.NEW_INVOICE.REMOVE_ITEM, payload: { id: id}})
+    };
 
     return (
         <article>
-            <p><input onChange={handleChange} type="text" value={props.state.name} id={`${props.id}_name`} /></p>
-            <p><input onChange={handleChange} type="text" value={props.state.quantity} id={`${props.id}_quantity`} /></p>
-            <p><input onChange={handleChange} type="text" value={props.state.pricePerUnit} id={`${props.id}_pricePerUnit`} /></p>
-            <p>€ {props.state.quantity * props.state.pricePerUnit ? (props.state.quantity * props.state.pricePerUnit).toFixed(2) : '-.--'}</p>
-            <p><img onClick={handleClick} src={bin} alt="icon bin" style={{ height: '1.2rem', width: '1.2rem' }} /></p>
+            <p><input onChange={handleChange} type="text" value={item.name} name='name' /></p>
+            <p><input onChange={handleChange} type="text" value={item.quantity} name='quantity' /></p>
+            <p><input onChange={handleChange} type="text" value={item.pricePerUnit} name='pricePerUnit' /></p>
+            <p>€ {item.quantity * item.pricePerUnit ? (item.quantity * item.pricePerUnit).toFixed(2) : '-.--'}</p>
+            <p><img onClick={event => removeItem(event)} src={bin} alt="icon bin" style={{ height: '1.2rem', width: '1.2rem' }} /></p>
         </article>
     );
 }

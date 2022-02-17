@@ -4,7 +4,9 @@ import Article from "../elements/Article";
 
 import { useState } from "react";
 
-function Invoice({clients, invoices}) {
+function Invoice({state}) {
+
+    const [clients, invoices] = state;
 
     let params = useParams();
     const [invoice, setInvoice] = useState(invoices.find(invoice => +invoice.number === +params.invoiceId))

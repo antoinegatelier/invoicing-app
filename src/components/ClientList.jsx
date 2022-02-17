@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 
 import Article from "../elements/Article";
 
-function ClientList({ clients, invoices }) {
+function ClientList({ state }) {
+
+    const [clients, invoices] = state;
+    
     return (
         <section className="invoice_list">
             <header>
