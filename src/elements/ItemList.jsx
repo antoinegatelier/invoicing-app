@@ -23,7 +23,7 @@ function ItemList(props) {
             <p><input onChange={handleChange} type="text" value={item.quantity} name='quantity' /></p>
             <p><input onChange={handleChange} type="text" value={item.pricePerUnit} name='pricePerUnit' /></p>
             <p>€ {item.quantity * item.pricePerUnit ? (item.quantity * item.pricePerUnit).toFixed(2) : '-.--'}</p>
-            <p><img onClick={event => removeItem(event)} src={bin} alt="icon bin" style={{ height: '1.2rem', width: '1.2rem' }} /></p>
+            {dispatch ? <p><img onClick={event => removeItem(event)} src={bin} alt="icon bin" style={{ height: '1.2rem', width: '1.2rem' }} /></p> : null}
         </article>
     );
 }

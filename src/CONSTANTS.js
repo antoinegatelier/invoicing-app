@@ -36,5 +36,6 @@ export const KEYS = {
   INVOICES: 'invoices',
   CLIENTS: 'clients',
   NEW_CLIENT: 'new_client',
-  NEW_INVOICE: 'new_invoice'
+  NEW_INVOICE: 'new_invoice',
+  THEME: 'theme'
 }

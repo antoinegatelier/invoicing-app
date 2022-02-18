@@ -16,7 +16,6 @@ function Home({ state, actions }) {
         event.preventDefault();
         console.log(data.clients)
         switch(id) {
-            
             case('clients'):
                 dispatchClients({type: ACTIONS.PUSH_DATA.CLIENTS, payload: data.clients});
                 break;
@@ -40,14 +39,14 @@ function Home({ state, actions }) {
             <figure>There {draft.length > 1 ? 'are' : 'is'} {draft.length} invoice{draft.length > 1 ? 's' : ''} in your drafts.</figure>
             <div className="button_group">
                 {invoices.length === 0 ? <button onClick={event => handleDataPush(event, 'invoices')}>Import placeholder data</button> : null}
-                <button ><Link to="/invoices" >See all invoices</Link></button>
+                <Link to="/invoices" >See all invoices</Link>
             </div>
 
             <h3>Clients overview</h3>
             <figure>You have {clients.length} client{clients.length > 1 ? 's' : ''}.</figure>
             <div className="button_group">
                 {clients.length === 0 ? <button onClick={event => handleDataPush(event, 'clients')}>Import placeholder data</button> : null}
-                <button><Link to="/clients" >See all clients</Link></button>
+                <Link to="/clients" >See all clients</Link>
             </div>
 
         </section>

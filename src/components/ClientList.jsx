@@ -10,10 +10,10 @@ function ClientList({ state }) {
         <section className="invoice_list">
             <header>
                 <h2>Clients</h2>
-                
+                <Link to="/new_client" >New Client</Link>
             </header>
 
-            <button onClick={event => { event.preventDefault() }} ><Link to="/new_client" >New Client</Link></button>
+
 
             <Article key='title' props={[
                 'Number',
@@ -37,7 +37,7 @@ function ClientList({ state }) {
                         `${client.firstName} ${client.lastName}`,
                         `${getInvoices.length}`,
                         `€ ${sum.toFixed(2)}`,
-                        <button className="list_showmore"><Link to={`/clients/${client.number}`} key={client.number}>Show more</Link></button>
+                        <Link to={`/clients/${client.number}`} key={client.number}>Show more</Link>
                     ]} />
                     
                 )

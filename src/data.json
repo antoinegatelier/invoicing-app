@@ -2,8 +2,8 @@
     "clients": [
         {
             "number": 1,
-            "firstName": "Antoine",
-            "lastName": "G",
+            "firstName": "John",
+            "lastName": "Smith",
             "title": "",
             "street": "Robert-Hamerling-Gasse 11/12",
             "additionalInfo": "",

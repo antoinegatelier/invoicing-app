@@ -33,6 +33,11 @@ function InvoiceForm({state, dispatch}) {
         dispatchInvoice({type: ACTIONS.NEW_INVOICE.UPDATE, payload: payload});
     };
 
+    const handleReset = event => {
+        event.preventDefault();
+        dispatchInvoice({type: ACTIONS.NEW_INVOICE.RESET, payload: createInvoice(invoices.length)})
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         event.target.name === STATUS.DRAFT ? dispatch({type: ACTIONS.INVOICES.ADD, payload: invoice}) : dispatch({type: ACTIONS.INVOICES.ADD, payload: {...invoice, 'status': STATUS.PENDING}});
@@ -103,11 +108,12 @@ function InvoiceForm({state, dispatch}) {
                     <button onClick={addItem}>+ Add New Item</button>
                 </fieldset>
             </form>
-            <div className='button_group'>
-                {/* <button onClick={enableEdit}>Edit invoice</button> */}
+
+            <section className='button_group'>
+                <button onClick={handleReset} disabled={invoice.status !== STATUS.DRAFT ? true : false}>Reset</button>
                 <button onClick={handleSubmit} name={STATUS.DRAFT} disabled={invoice.status === STATUS.DRAFT ? false : true} >Save as draft</button>
                 <button onClick={handleSubmit} name={STATUS.PENDING}>Send as Pending</button>
-            </div>
+            </section>
             
         </section>
      );

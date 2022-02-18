@@ -1,12 +1,57 @@
+.light {
+  --primary-background-100: ;
+  --primary-background-200: rgb(1, 197, 171);
+  --primary-background-300: rgb(2, 156, 218);
+
+  --secondary-background-100: rgb(136, 44, 44);
+  --secondary-background-200: ;
+  --secondary-background-300: ;
+
+  --primary-font-100: ;
+  --primary-font-200: rgb(15, 2, 2);
+  --primary-font-300: ;
+
+  --secondary-font-100: ;
+  --secondary-font-200: ;
+  --secondary-font-300: rgb(255, 255, 255);
+}
+
+.dark {
+  --primary-background-100: ;
+  --primary-background-200: rgb(17, 18, 70);
+  --primary-background-300: rgb(12, 12, 39);
+
+  --secondary-background-100: rgb(255, 187, 0);
+  --secondary-background-200: ;
+  --secondary-background-300: ;
+
+  --primary-font-100: ;
+  --primary-font-200: rgb(175, 175, 175);
+  --primary-font-300: ;
+
+  --secondary-font-100: ;
+  --secondary-font-200: ;
+  --secondary-font-300: rgb(12, 12, 39);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .App {
-  background-color: rgb(12, 12, 39);
+  background-color: var(--primary-background-300);
   min-height: 100vh;
 }
 
 section {
-  background-color: rgb(12, 12, 39);
+  background-color: var(--primary-background-300);
   padding: 2rem;
-  color: rgb(175, 175, 175);
+  color: var(--primary-font-200);
 }
 
 section header {
@@ -17,8 +62,8 @@ section header {
 
 article {
   border-radius: .8rem;
-  background-color: rgb(17, 18, 70);
-  color: rgb(175, 175, 175);
+  background-color: var(--primary-background-200);
+  color: var(--primary-font-200);
   font-weight: 700;
   margin-bottom: .5rem;
 
@@ -32,33 +77,33 @@ article * {
   width: 100%;
 }
 
-.list_showmore {
-  width: 3rem;
-  font-weight: 800;
-  text-align: center;
-  cursor: pointer;
-}
-
 /* NavBar */
 
-.nav_bar {
-  background-color: rgb(17, 18, 70);
-  padding: 2rem;
-  display: flex;
-  justify-content: space-between;
-}
-
-button {
-  background-color: rgb(175, 175, 175);
+a {
+  display: block;
+  background-color: var(--secondary-background-100);
   border: none;
   border-radius: .2rem;
   padding: .5rem;
   transform: scale(1);
   transition: 50ms ease-in;
+  text-decoration: none;
+  font-weight: 600;
+  color:var(--secondary-font-300);
+  width: auto;
+  max-width: fit-content;
+  text-align: center;
 }
 
-button:hover {
+a:hover {
   transform: scale(1.2);
+}
+
+.nav_bar {
+  background-color: var(--primary-background-200);
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .button_group {
@@ -71,7 +116,7 @@ button:hover {
 
 .invoice_form {
   padding: 2rem;
-  color: rgb(175, 175, 175);
+  color: var(--primary-font-200);
 }
 
 fieldset {
@@ -87,4 +132,38 @@ label {
   display: flex;
   justify-content: flex-start;
   gap: 2rem;
+}
+
+/* Toggle */
+
+.toggle_div {
+  position: relative;
+  align-self: center;
+  width: 2rem;
+  height: 1rem;
+  border-radius: 1rem;
+  background-color: var(--secondary-background-100);
+}
+
+.toggle_switch {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--primary-background-300);
+  border: solid .15rem var(--primary-font-200);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%) translateX(0%);
+  left: 0%;
+  transition: ease-in 100ms;
+}
+
+.toggle_switch:hover {
+  cursor: pointer;
+}
+
+.toggle_on {
+  left: 100%;
+  transform: translateY(-50%) translateX(-100%);
+  transition: ease-in 100ms;
 }

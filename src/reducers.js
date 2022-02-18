@@ -66,3 +66,14 @@ export function invoicesReducer(state, action) {
         throw new Error(`newInvoiceReducer: Action ${action.type} is not valid`);
     }
   }
+
+  export function themeReducer(state, action) {
+    switch (action.type) {
+      case('dark'):
+        return 'dark';
+      case('light'):
+        return 'light';
+      default:
+        throw new Error(`themeReducer: Action ${action.type} is not valid`);
+    }
+  }

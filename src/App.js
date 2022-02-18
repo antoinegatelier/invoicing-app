@@ -10,21 +10,34 @@ import Home from "./components/Home";
 import ClientForm from "./components/ClientForm";
 
 import useLocalStorage from './useLocalStorage';
-import { invoicesReducer, clientsReducer } from './reducers';
+import { invoicesReducer, clientsReducer, themeReducer } from './reducers';
 
 import { Routes, Route } from "react-router-dom";
 import { KEYS } from "./CONSTANTS";
 
 import './App.css'
 
+function getPreferredColorScheme() {
+  if(window.matchMedia) {
+      if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+      } else {
+          return 'light';
+      }
+  }
+  return 'light';
+}
+
 function App() {
+
+  const [theme, dispatchTheme] = useLocalStorage(themeReducer, KEYS.THEME, getPreferredColorScheme())
 
   const [invoices, dispatchInvoices] = useLocalStorage(invoicesReducer, KEYS.INVOICES , []);
   const [clients, dispatchClients] = useLocalStorage(clientsReducer, KEYS.CLIENTS, [])
 
   return (
-    <div className="App">
-      <NavBar />
+    <div className={`App ${theme}`}>
+      <NavBar theme={theme} dispatch={dispatchTheme} />
       <Routes>
         <Route path='/' element={<Home state={[clients, invoices]} actions={{dispatchClients: dispatchClients, dispatchInvoices: dispatchInvoices}} />} />
         <Route path='invoices' element={<InvoiceList state={[clients, invoices]} />} />

@@ -24,7 +24,7 @@ function InvoiceList({ state }) {
                     <option value="Paid">Paid</option>
                     <option value="Pending">Pending</option>
                 </select>
-                <button><Link to="/new_invoice" >New Invoice</Link></button>
+                <Link to="/new_invoice" >New Invoice</Link>
             </header>
             <figure>There are {invoices.length} total invoices</figure>
 
@@ -41,7 +41,7 @@ function InvoiceList({ state }) {
                                 `${person.firstName} ${person.lastName}`,
                                 `${invoice.currency} ${invoice.amount.toFixed(2)}`,
                                 `${invoice.status}`,
-                                <button className="list_showmore"><Link to={`/invoices/${invoice.number}`} >See more</Link></button>
+                                <Link to={`/invoices/${invoice.number}`} >See more</Link>
                             ]
                         }
                     />
