@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 
 export function getSavedValue(key, initialValue) {
     const savedValue = JSON.parse(localStorage.getItem(key));

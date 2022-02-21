@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Article from "../elements/Article";
-import ItemList from '../elements/ItemList';
 
 function Client({ state }) {
 
     const [clients, invoices] = state;
     let params = useParams();
-    const [client, setClient] = useState(clients.filter(client => +client.number === +params.clientId)[0]);
+    const [client, setClient] = useState(clients.find(client => +client.number === +params.clientId));
 
-
+    useEffect(() => {
+        setClient(clients.find(client => +client.number === +params.clientId))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params])
 
     return ( 
         <section>

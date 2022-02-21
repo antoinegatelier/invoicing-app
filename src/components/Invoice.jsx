@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Article from "../elements/Article";
 import ItemList from '../elements/ItemList';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Invoice({state}) {
 
@@ -13,6 +13,10 @@ function Invoice({state}) {
     const [invoice, setInvoice] = useState(invoices.find(invoice => parseInt(invoice.number) === parseInt(params.invoiceId)));
     const client = clients.find(client => parseInt(client.number) === parseInt(invoice.client));
 
+    useEffect(() => {
+        setInvoice(invoices.find(invoice => parseInt(invoice.number) === parseInt(params.invoiceId)))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params])
 
     return (
         <section>

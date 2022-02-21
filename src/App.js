@@ -2,10 +2,8 @@ import InvoiceList from "./components/InvoiceList";
 import NavBar from "./components/NavBar";
 import Invoice from "./components/Invoice";
 import InvoiceForm from "./components/InvoiceForm";
-import Profile from "./components/Profile";
 import Client from "./components/Client";
 import ClientList from "./components/ClientList";
-import Settings from "./components/Settings";
 import Home from "./components/Home";
 import ClientForm from "./components/ClientForm";
 
@@ -36,7 +34,7 @@ function App() {
         <Route path="clients" element={<ClientList state={[clients, invoices]} />} />
         <Route path="/clients/:clientId" element={<Client state={[clients, invoices]} />} />  
         <Route path="new_invoice" element={<InvoiceForm state={[clients, invoices]} dispatch={dispatchInvoices}/>} />
-        <Route path="new_client" element={<ClientForm state={[clients, invoices]} dispatch={dispatchClients} />} />
+        <Route path="new_client" element={<ClientForm state={clients} dispatch={dispatchClients} />} />
         <Route path="*" element={<section><article><p>Error 404 - Page not found</p></article></section>} />
       </Routes>
     </div>

@@ -5,9 +5,7 @@ import useLocalStorage from "../useLocalStorage";
 
 import { ACTIONS, KEYS } from '../CONSTANTS';
 
-function ClientForm({ state, dispatch }) {
-
-    const [clients, invoices] = state;
+function ClientForm({ clients, dispatch }) {
 
     const [client, dispatchClient] = useLocalStorage(newClientReducer, KEYS.NEW_CLIENT, createClient(clients.length + 1))
 
