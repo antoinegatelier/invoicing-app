@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import data from '../data.json';
+import { fetchClients, fetchInvoices } from "../fetchData";
 
 import { ACTIONS, STATUS } from '../CONSTANTS';
 
@@ -12,15 +12,17 @@ function Home({ state, actions }) {
     const paid = invoices.filter(invoice => invoice.status === STATUS.PAID);
     const draft = invoices.filter(invoice => invoice.status === STATUS.DRAFT);
 
-    const handleDataPush = (event, id) => {
+    const handleDataPush = async (event, id) => {
         event.preventDefault();
-        console.log(data.clients)
+        
+        const feedClients = await fetchClients();
+        const feedInvoices = await fetchInvoices();
         switch(id) {
             case('clients'):
-                dispatchClients({type: ACTIONS.PUSH_DATA.CLIENTS, payload: data.clients});
+                dispatchClients({type: ACTIONS.PUSH_DATA.CLIENTS, payload: feedClients});
                 break;
             case('invoices'):
-                dispatchInvoices({type: ACTIONS.PUSH_DATA.INVOICES, payload: data.invoices});
+                dispatchInvoices({type: ACTIONS.PUSH_DATA.INVOICES, payload: feedInvoices});
                 break;
             default:
                 throw new Error(`Data push failed`);
@@ -34,7 +36,7 @@ function Home({ state, actions }) {
                 <h2>Home</h2>
             </header>
             <h3>Invoices overview</h3>
-            <figure>There {due.length > 1 ? 'are' : 'is'} {due.length} due invoice{due.length > 1 ? 's' : ''}.</figure>
+            <figure data-testid="dueInvoices">There {due.length > 1 ? 'are' : 'is'} {due.length} due invoice{due.length > 1 ? 's' : ''}.</figure>
             <figure>There {paid.length > 1 ? 'are' : 'is'} {paid.length} paid invoice{paid.length > 1 ? 's' : ''}.</figure>
             <figure>There {draft.length > 1 ? 'are' : 'is'} {draft.length} invoice{draft.length > 1 ? 's' : ''} in your drafts.</figure>
             <div className="button_group">

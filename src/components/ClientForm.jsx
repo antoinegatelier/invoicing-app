@@ -32,12 +32,10 @@ function ClientForm({ state, dispatch }) {
                 <fieldset>
                     <legend>Name</legend>
                     <article>
-                        <label htmlFor="title" ><p>Title</p></label>
                         <label htmlFor="firstName" ><p>First name</p></label>
                         <label htmlFor="lastName" ><p>Last name</p></label>
                     </article>
                     <article>
-                        <p><input onChange={handleChange} name="title" type="text" id="title" value={client.title} /></p>
                         <p><input onChange={handleChange} name="firstName" type="text" id="firstName" value={client.firstName} required /></p>
                         <p><input onChange={handleChange} name="lastName" type="text" id="lastName" value={client.lastName} required /></p>
                     </article>
@@ -49,12 +47,6 @@ function ClientForm({ state, dispatch }) {
                     </article>
                     <article>
                         <p><input onChange={handleChange} name="street" type="text" id="street" value={client.street} required /></p>
-                    </article>
-                    <article>
-                        <p><label htmlFor="additionalInfo">Additional information</label></p>
-                    </article>
-                    <article>
-                        <p><input onChange={handleChange} name="additionalInfo" type="text" id="additionalInfo" value={client.additionalInfo} /></p>
                     </article>
                     <article>
                         <p><label htmlFor="city" >City</label></p>

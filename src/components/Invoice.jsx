@@ -21,12 +21,12 @@ function Invoice({state}) {
             </header>
 
             <Article props={['Client', 'Creation date', 'Due date', 'Project','Amount']}/>
-            <Article props={[`${client.firstName} ${client.lastName}`, invoice.created, invoice.due, invoice.description,`${invoice.currency} ${invoice.amount.toFixed(2)}`]}/>
+            <Article props={[`${client.firstName} ${client.lastName}`, invoice.created, invoice.due, invoice.description,`€ ${invoice.amount.toFixed(2)}`]}/>
 
             <section>
                 <h3>Item list</h3>
                 <Article props={['Item name', 'Quantity', 'Price per Unit', 'Total']} />
-                {invoice.items.map(item => <ItemList state={[item, invoice.status]} />) || <p>'No items to show.'</p>}
+                {invoice.items?.map(item => <ItemList state={[item, invoice.status]} />) || <p>'No items to show.'</p>}
             </section>
 
 

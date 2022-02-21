@@ -2,11 +2,9 @@ import { STATUS } from './CONSTANTS';
 
 export function createClient(number = undefined) {
     return ({
-        title: "",
         firstName: "",
         lastName: "",
         street: "",
-        additionalInfo: "",
         city: "",
         postcode: "",
         country: "",
@@ -36,7 +34,6 @@ export function createInvoice(number) {
             description: '',
             client: 0,
             amount: 0,
-            currency: '€',
             status: STATUS.DRAFT,
             items: []
         }

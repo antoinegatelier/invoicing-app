@@ -1,11 +1,24 @@
 import { Link } from "react-router-dom"
+import { ACTIONS } from "../CONSTANTS";
 
 import Toggle from "../elements/Toggle";
 
-function NavBar({theme, dispatch}) {
+function NavBar({theme, dispatch, dispatchClients, dispatchInvoices}) {
 
     const toggleColorTheme = () => {
         dispatch({type: theme === 'dark' ? 'light' : 'dark'});
+    }
+
+    const resetData = (event) => {
+        event.preventDefault();
+        let userInput = window.prompt('If you really want to reset your data, please write "DELETE" in the following field:');
+        if(userInput === 'DELETE') {
+            dispatchClients({type: ACTIONS.PUSH_DATA.CLIENTS, payload: []});
+            dispatchInvoices({type: ACTIONS.PUSH_DATA.INVOICES, payload: []})
+            window.alert('Reset successfull');
+        } else {
+            window.alert('Reset aborted');
+        }
     }
 
     return (
@@ -18,7 +31,7 @@ function NavBar({theme, dispatch}) {
 
             <div className='button_group'>
                 <Toggle toggleColorTheme={toggleColorTheme} />
-                <Link to="profile">Profile</Link>
+                <button onClick={resetData}>Reset data</button>
             </div>
 
         </nav>
