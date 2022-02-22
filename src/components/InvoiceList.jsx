@@ -52,7 +52,7 @@ function InvoiceList({ state }) {
                     </label>
                     <label htmlFor="page" style={{width: "auto", margin: "0 auto", borderRadius: ".30rem",border: '2px var(--primary-background-200) solid'}}>Page:
                         <select onChange={handlePageSelection} name="page" value={page}>
-                            {pages.map(pageNumber => <option value={pageNumber}>{pageNumber}</option>)}
+                            {pages.map(pageNumber => <option key={pageNumber} value={pageNumber}>{pageNumber}</option>)}
                         </select>
                     </label>
                 </div>

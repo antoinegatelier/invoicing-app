@@ -77,6 +77,12 @@ article * {
   width: 100%;
 }
 
+.article_content {
+  background-color: var(--primary-background-100);
+  border: 1px solid var(--primary-background-200);
+  font-weight: 400;
+}
+
 select {
   background-color: var(--secondary-background-100);
   color: var(--primary-font-100);

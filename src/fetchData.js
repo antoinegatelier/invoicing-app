@@ -2,7 +2,7 @@ import { STATUS } from "./CONSTANTS";
 
 export const fetchClients = async () => {
     const clients = await fetch('https://fakerapi.it/api/v1/custom?_quantity=15&_locale=de_DE&firstName=firstName&lastName=lastName&street=streetAddress&postcode=postcode&city=city&email=email&tel=phone').then(response => response.json());
-    return clients.data.map((client, index) => ({...client, number: index + 1}));
+    return clients.data.map((client, index) => ({...client, country: 'Deutschland',number: index + 1}));
 }
 
 export const fetchInvoices = async () => {

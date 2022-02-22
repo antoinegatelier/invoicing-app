@@ -5,7 +5,7 @@ export function invoicesReducer(state, action) {
       case(ACTIONS.INVOICES.ADD):
         return [...state, action.payload];
       case(ACTIONS.INVOICES.REMOVE):
-        return state.filter(invoice => invoice.id !== action.payload.id);
+        return state.filter(invoice => invoice.number !== action.payload.id);
       case(ACTIONS.INVOICES.UPDATE):
         return state.map(invoice => {
           if(invoice.id !== action.payload.id) return invoice;
@@ -23,10 +23,10 @@ export function invoicesReducer(state, action) {
       case(ACTIONS.CLIENTS.ADD):
         return [...state, action.payload];
       case(ACTIONS.CLIENTS.REMOVE):
-        return state.filter(client => client.id !== action.payload.id);
+        return state.filter(client => client.number !== action.payload.id);
       case(ACTIONS.CLIENTS.UPDATE):
         return state.map(client => {
-          if(client.id !== action.payload.id) return client;
+          if(client.number !== action.payload.id) return client;
           return {...client, [action.payload.key]: action.payload.value};
         });
       case(ACTIONS.PUSH_DATA.CLIENTS):

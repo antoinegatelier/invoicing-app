@@ -3,8 +3,8 @@ function Article(props) {
     const state = props.props;
 
     return ( 
-        <article>
-            {state.map(prop => <p>{prop}</p>)}
+        <article className={props.className}>
+            {state.map((prop, index) => <p key={index}>{prop}</p>)}
         </article>
      );
 }

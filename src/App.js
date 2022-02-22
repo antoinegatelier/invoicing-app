@@ -29,13 +29,13 @@ function App() {
       <NavBar theme={theme} dispatch={dispatchTheme} dispatchClients={dispatchClients} dispatchInvoices={dispatchInvoices}/>
       <Routes>
         <Route path='/' element={<Home state={[clients, invoices]} actions={{dispatchClients: dispatchClients, dispatchInvoices: dispatchInvoices}} />} />
-        <Route path='invoices' element={<InvoiceList state={[clients, invoices]} />} />
+        <Route path='/invoices' element={<InvoiceList state={[clients, invoices]} />} />
         <Route path='/invoices/:invoiceId' element={<Invoice state={[clients, invoices]} />} />
-        <Route path="clients" element={<ClientList state={[clients, invoices]} />} />
-        <Route path="/clients/:clientId" element={<Client state={[clients, invoices]} />} />  
-        <Route path="new_invoice" element={<InvoiceForm state={[clients, invoices]} dispatch={dispatchInvoices}/>} />
-        <Route path="new_client" element={<ClientForm state={clients} dispatch={dispatchClients} />} />
-        <Route path="*" element={<section><article><p>Error 404 - Page not found</p></article></section>} />
+        <Route path="/clients" element={<ClientList state={[clients, invoices]} />} />
+        <Route path="/clients/:clientId" element={<Client state={[clients, invoices]} dispatch={[dispatchClients, dispatchInvoices]} />} />
+        <Route path="/new_invoice" element={<InvoiceForm state={[clients, invoices]} dispatch={dispatchInvoices}/>} />
+        <Route path="/new_client" element={<ClientForm clients={clients} dispatch={dispatchClients} />} />
+        <Route path="/*" element={<section><article><p>Error 404 - Page not found</p></article></section>} />
       </Routes>
     </div>
   );
