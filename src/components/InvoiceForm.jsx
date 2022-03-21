@@ -100,11 +100,11 @@ function InvoiceForm({state, dispatch}) {
                     <article>
                         <p>Item name</p>
                         <p>Qty.</p>
-                        <p>Price</p>
+                        <p>Price per unit</p>
                         <p>Total</p>
                         <p></p>
                     </article>
-                        {invoice.items.map(item => <ItemList id={item.id} key={item.id} dispatch={dispatchInvoice} state={[item, invoice.status]} />)}
+                        {invoice.items.map(item => <ItemList id={item.id} key={item.id} dispatch={dispatchInvoice} state={[item]} />)}
                     <button onClick={addItem}>+ Add New Item</button>
                 </fieldset>
             </form>

@@ -18,9 +18,8 @@ export function createItem(id) {
     return (
         {
             id: id,
-            name: '',
+            name: 1,
             quantity: 0,
-            pricePerUnit: 0
         }
     )
 }

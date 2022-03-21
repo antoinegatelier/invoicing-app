@@ -29,8 +29,8 @@ function App() {
       <NavBar theme={theme} dispatch={dispatchTheme} dispatchClients={dispatchClients} dispatchInvoices={dispatchInvoices}/>
       <Routes>
         <Route path='/' element={<Home state={[clients, invoices]} actions={{dispatchClients: dispatchClients, dispatchInvoices: dispatchInvoices}} />} />
-        <Route path='/invoices' element={<InvoiceList state={[clients, invoices]} />} />
-        <Route path='/invoices/:invoiceId' element={<Invoice state={[clients, invoices]} />} />
+        <Route path='/invoices' element={<InvoiceList state={[clients, invoices]} dispatch={[dispatchClients, dispatchInvoices]} />} />
+        <Route path='/invoices/:invoiceId' element={<Invoice state={[clients, invoices]} dispatch={dispatchInvoices}/>} />
         <Route path="/clients" element={<ClientList state={[clients, invoices]} />} />
         <Route path="/clients/:clientId" element={<Client state={[clients, invoices]} dispatch={[dispatchClients, dispatchInvoices]} />} />
         <Route path="/new_invoice" element={<InvoiceForm state={[clients, invoices]} dispatch={dispatchInvoices}/>} />

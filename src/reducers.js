@@ -8,8 +8,23 @@ export function invoicesReducer(state, action) {
         return state.filter(invoice => invoice.number !== action.payload.id);
       case(ACTIONS.INVOICES.UPDATE):
         return state.map(invoice => {
-          if(invoice.id !== action.payload.id) return invoice;
+          if(invoice.number !== action.payload.invoiceId) return invoice;
           return {...invoice, [action.payload.key]: action.payload.value};
+        });
+      case (ACTIONS.INVOICES.ADD_ITEM):
+        return state.map(invoice => {
+          if(invoice.number !== action.payload.invoiceId) return invoice;
+          return {...invoice, items: [...invoice.items, action.payload.item]}
+        });
+      case (ACTIONS.INVOICES.REMOVE_ITEM):
+        return state.map(invoice => {
+          if(invoice.number !== action.payload.invoiceId) return invoice;
+          return {...invoice, items: invoice.items.filter(item => item.id !== action.payload.itemId)}
+        });
+      case (ACTIONS.INVOICES.UPDATE_ITEM):
+        return state.map(invoice => {
+          if(invoice.number !== action.payload.invoiceId) return invoice;
+          return {...invoice, items: invoice.items.map(item => item.id !== action.payload.itemId ? item : {...item, [action.payload.key]: action.payload.value})}
         });
       case(ACTIONS.PUSH_DATA.INVOICES):
         return action.payload;
@@ -56,10 +71,10 @@ export function invoicesReducer(state, action) {
       case(ACTIONS.NEW_INVOICE.ADD_ITEM):
         return {...state, items: [...state.items, action.payload]};
       case(ACTIONS.NEW_INVOICE.REMOVE_ITEM):
-        return {...state, items: state.items.filter(item => item.id !== action.payload.id)};
+        return {...state, items: state.items.filter(item => item.id !== action.payload.itemId)};
       case(ACTIONS.NEW_INVOICE.UPDATE_ITEM):
         return {...state, items: state.items.map(item => {
-          if(item.id !== action.payload.id) return item;
+          if(item.id !== action.payload.itemId) return item;
           return {...item, [action.payload.key]: action.payload.value};
         })};
       default:

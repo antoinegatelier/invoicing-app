@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ACTIONS } from "../CONSTANTS";
+import { ACTIONS, PRODUCTS } from "../CONSTANTS";
 import Article from "../elements/Article";
 import EditArticle from "../elements/EditArticle";
 
@@ -27,7 +27,9 @@ function Client({ state, dispatch }) {
             dispatchClients({type: ACTIONS.CLIENTS.REMOVE, payload: {id: client.number}});
             navigate("../clients");
             window.alert('Client and all related invoices were deleted from memory.');
-        } else (window.alert('Delete process aborted.'))
+        } else {
+            window.alert('Delete process aborted.')
+        }
     }
 
     useEffect(() => {
@@ -59,8 +61,13 @@ function Client({ state, dispatch }) {
                 <header>
                     <h3>Invoices</h3>
                 </header>
-                  <Article key='invoice' props={['Number', 'Created on', 'Due date', 'Amount']}/>
-                {invoices.filter(invoice => (+invoice.client === +params.clientId) && (invoice.status !== 'Draft') ).map(invoice => <Article key={`${params.clientId} ${invoice.number}`} props={[`#${invoice.number}`, invoice.created, invoice.due, `${invoice.currency} ${invoice.amount}`]} />)}
+                <Article key='invoice' props={['Number', 'Created on', 'Due date', 'Amount']} />
+                {invoices.filter(invoice =>
+                    (+invoice.client === +params.clientId) && (invoice.status !== 'Draft'))
+                    .map(invoice => {
+                        let amount = invoice.items.map(item => PRODUCTS[item.name].pricePerUnit * item.quantity).reduce((a, b) => a + b);
+                        return <Article key={`${params.clientId} ${invoice.number}`} props={[`#${invoice.number}`, invoice.created, invoice.due, `€ ${amount.toFixed(2)}`]} />
+                    })}
             </section>
           
         </section>

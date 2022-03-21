@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PRODUCTS } from '../CONSTANTS';
 
 import Article from "../elements/Article";
 
@@ -27,7 +28,7 @@ function ClientList({ state }) {
                 const getInvoices = invoices.filter(invoice => client.number === +invoice.client);
                 let sum = 0;
                 for (const invoice of getInvoices) {
-                    sum += invoice.amount;
+                    sum += invoice.items.length >0 ? invoice.items.map(item => PRODUCTS[item.name].pricePerUnit * item.quantity).reduce((a, b) => a+b) : 0;
                 }
 
                 return (
@@ -37,7 +38,7 @@ function ClientList({ state }) {
                         `${client.firstName} ${client.lastName}`,
                         `${getInvoices.length}`,
                         `€ ${sum.toFixed(2)}`,
-                        <Link to={`/clients/${client.number}`} key={client.number}>Show more</Link>
+                        <Link to={`/clients/${client.number}`} key={client.number}>&#62;</Link>
                     ]} />
                     
                 )

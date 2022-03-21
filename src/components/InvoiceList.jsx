@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { PRODUCTS } from "../CONSTANTS";
+
 import Article from "../elements/Article";
 
 import { useEffect, useState } from "react";
@@ -68,6 +70,7 @@ function InvoiceList({ state }) {
             .filter((_invoice, index) => index >= (invoicesPerPage * (page - 1)) && index < (invoicesPerPage * (page)))
             .map(invoice => {
                 let person = clients.find(client => client.number === +invoice.client);
+                let amount = invoice.items.length > 0 ? invoice.items.map(item => PRODUCTS[item.name].pricePerUnit * item.quantity).reduce((a, b) => a + b) : 0;
                 return (
                     <Article key={invoice.number}
                         props={
@@ -75,7 +78,7 @@ function InvoiceList({ state }) {
                                 `#${invoice.number}`,
                                 `Due ${invoice.due}`,
                                 `${person.firstName} ${person.lastName}`,
-                                `€ ${invoice.amount.toFixed(2)}`,
+                                `€ ${amount.toFixed(2)}`,
                                 `${invoice.status}`,
                                 <Link to={`/invoices/${invoice.number}`} >See more</Link>
                             ]
